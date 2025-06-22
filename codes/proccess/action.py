@@ -1,4 +1,5 @@
 from .settings import INPUT_DIR, OUTPUT_DIR
+from .messages import error, success
 
 import os
 
@@ -30,18 +31,18 @@ class Base:
     def proccess(self):
         try:
             for file in self.files():
-                print(f'[+] find {file}')
+                print(success(f'find {file}'))
                 data = self.read(file)
-                print(f'[+] read data in {file}')
+                print(success(f'read data in {file}'))
                 self.write(data, file)
-                print(f'[+] write data complated')
+                print(success('write data complated'))
         except:
-            print(f'[!] error {file}')
+            print(error(f'error {file}'))
 
     def run(self):
-        print('[+] proccess started')
+        print(success('proccess started'))
         self.proccess()
-        print('[+] proccess down')
+        print(success('proccess down'))
 
 
 class Encrypt(Base):
