@@ -1,4 +1,5 @@
 from .messages import description, syng
+from .action import Encrypt
 
 from os import system, name
 
@@ -9,7 +10,10 @@ def run():
         cmd = input(syng).lower().strip()
 
         if cmd == 'enc':
-            pass
+            password = input('your password ? ')
+            if password:
+                enc = Encrypt(password)
+                enc.run()
 
         elif cmd == 'dec':
             pass
