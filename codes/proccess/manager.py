@@ -1,5 +1,5 @@
-from .messages import description, syng
-from .action import Encrypt
+from .text import description, syng
+from .action import Encrypt, Decrypt
 
 from os import system, name
 
@@ -16,7 +16,10 @@ def run():
                 enc.run()
 
         elif cmd == 'dec':
-            pass
+            password = input('your password ? ')
+            if password:
+                dec = Decrypt(password)
+                dec.run()
         
         elif cmd == 'cls':
             system('cls' if name == 'nt' else 'clear')
