@@ -1,5 +1,6 @@
 from .text import description, syng
 from .action import Encrypt, Decrypt
+from .messages import error
 
 from os import system, name
 
@@ -11,15 +12,21 @@ def run():
 
         if cmd == 'enc':
             password = input('your password ? ')
-            if password:
-                enc = Encrypt(password)
-                enc.run()
+            enc = Encrypt()
+            if password and enc.check_password(password):
+                enc_password = input('write your encrypt password : ').strip()
+                enc.run(enc_password)
+            else:
+                print(error('password have problem'))
 
         elif cmd == 'dec':
             password = input('your password ? ')
-            if password:
-                dec = Decrypt(password)
-                dec.run()
+            dec = Decrypt()
+            if password and dec.check_password(password):
+                dec_password = input('write your decrypt password : ').strip()
+                dec.run(dec_password)
+            else:
+                print(error('password have problem'))
         
         elif cmd == 'cls':
             system('cls' if name == 'nt' else 'clear')
