@@ -2,5 +2,6 @@ venv/
 input/
 output/
 .env
+password.env
 .environ
 __pycache__/
