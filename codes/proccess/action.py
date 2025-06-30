@@ -1,5 +1,5 @@
-from .settings import INPUT_DIR, OUTPUT_DIR, PASSWORD
-from .messages import error, success
+from ..settings import INPUT_DIR, OUTPUT_DIR, PASSWORD
+from .messages import print_error, print_success
 
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
@@ -12,10 +12,9 @@ import os
 
 
 class Base:
-    def __init__(self, action):
-        self.action = action
-        self.from_ = INPUT_DIR if self.action=='enc' else OUTPUT_DIR
-        self.to_ = OUTPUT_DIR if self.action=='enc' else INPUT_DIR
+    def __init__(self):
+        self.from_ = INPUT_DIR
+        self.to_ = OUTPUT_DIR
 
     def generate_input_address(self, file):
         # generate input address with only file name
@@ -37,21 +36,21 @@ class Base:
     def proccess(self):
         try:
             for file in self.files():
-                print(success(f'find {file}'))
+                print_success(f'find {file}')
                 data = self.read(file)
-                print(success(f'read data in {file}'))
+                print_success(f'read data in {file}')
                 self.write(data, file)
-                print(success('write data complated'))
+                print_success('write data complated')
         except InvalidToken:
-            print(error('your password is wrong. so you can not decrypt file'))
+            print_error('your password is wrong. so you can not decrypt file')
         except:
-            print(error(f'error {file}'))
+            print_error(f'error {file}')
 
     def run(self, password):
         self.password = self.hash_password(password)
-        print(success('proccess started'))
+        print(print_success('proccess started'))
         self.proccess()
-        print(success('proccess down'))
+        print(print_success('proccess down'))
 
     def check_password(self, password):
         hash_password = hashlib.sha3_512(password.encode())
@@ -71,9 +70,6 @@ class Base:
         
 
 class Encrypt(Base):
-    def __init__(self):
-        super().__init__('enc')
-
     def hash(self, data):
         # hash data
         # return data
@@ -87,9 +83,6 @@ class Encrypt(Base):
 
 
 class Decrypt(Base):
-    def __init__(self):
-        super().__init__('dec')
-        
     def unhash(self, data):
         # unhash data
         # return data
