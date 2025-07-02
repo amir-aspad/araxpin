@@ -1,23 +1,25 @@
 # 🛡️ araxpin
 
-**araxpin** is a Python-based tool designed for two-way encryption and decryption of files using a user-defined passphrase. It works with all file types and is structured around two key folders: `input/` and `output/`.
+**araxpin** is a simple yet powerful Python tool for encrypting and decrypting files using a passphrase. It works offline, supports all file types, and preserves folder structures from input to output.
 
 ## 🚀 Features
 
-- 🔐 Encrypt and decrypt using the same password.
-- 📁 File-based workflow: drag files into `input/`, get results in `output/`.
-- 📦 Supports any file format.
-- 💡 Simple and intuitive command-line interface.
+- 🔐 Two-way encryption & decryption with a user-defined password
+- 📁 Drag-and-drop files into the `input/` folder — get results in `output/`
+- 🗂️ Automatically keeps folder structure from `input/` to `output/`
+- ⚙️ Works with any file format (PDF, DOCX, ZIP, images, code files, etc.)
+- 🧠 Minimal, clean CLI — no prior experience needed
+- 🌐 100% offline and secure
 
-## 📁 Folder Structure
+## 📁 Project Structure
 
 ```
 araxpin/
-├── input/          # Place files here to be encrypted or decrypted
-├── output/         # Results will be saved here
-├── run.py          # Core script
-├── requirements.txt
-└── README.md
+├── input/              # Files/folders to encrypt or decrypt
+├── output/             # Encrypted or decrypted files, preserving structure
+├── run.py              # Main program
+├── requirements.txt    # Required Python packages
+└── README.md           # Project documentation
 ```
 
 ## ⚙️ How It Works
@@ -37,12 +39,13 @@ Copy and paste this into your terminal to run the script:
 git clone git@github.com:amir-aspad/araxpin.git
 cd araxpin
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate     # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 python run.py
 ```
 
-## 🔒 Important Notes
+## 🔒 Security Notes
 
-- Remember your passphrase — losing it means losing access to your files.
-- Encrypted output depends on both the file content and password for maximum security.
+- ✅ Your files never leave your machine — fully offline.
+- ❗ Don’t forget your password. There is no recovery option.
+- 🔐 The same password must be used to decrypt files.
