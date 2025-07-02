@@ -13,7 +13,7 @@ def run():
         if cmd == 'enc' or cmd == 'dec':
             password = input('your password ? ')
 
-            remove_input_text = 'remove input file after proccess down (y or n) ?'
+            remove_input_text = 'Remove input directory after processing is done? (y/N)'
             remove_input_state = True if input(remove_input_text).lower().strip() == 'y' else False
 
             if password:

@@ -20,33 +20,39 @@ class Base:
         # create output folder for save rusult
         os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    def generate_input_address(self, file):
+    def generate_input_address(self, root, file):
         # generate input address with only file name
-        return os.path.join(self.from_, file)
+        address = os.path.join(root, file)
+        return address, os.path.relpath(address, INPUT_DIR)
     
     def generate_output_address(self, file):
         # generate output address with only file name
         return os.path.join(self.to_, file)
     
-    def read(self, file):
+    def read(self, address):
         # read data in file
-        with open(self.generate_input_address(file), mode='rb') as f:
+        with open(address, mode='rb') as f:
             return f.read()
         
-    def files(self):
-        # find all file in folder
-        return os.listdir(self.from_)
-    
     def proccess(self):
         try:
-            for file in self.files():
-                print_success(f'find {file}')
-                data = self.read(file)
-                print_success(f'read data from {file}')
-                self.write(data, file)
-                print_success('write data complated')
+            if not os.path.exists(INPUT_DIR):
+                raise FileNotFoundError
+            
+            for root, dirs, files in os.walk(INPUT_DIR):
+                for file in files:
+                    print_success(f'find {file}')
+                    file_address, relative_path = self.generate_input_address(root, file)
+                    data = self.read(file_address)
+                    
+                    print_success(f'read data from {file}')
+                    self.write(data, file, relative_path)
+                    print_success('write data complated')
+                    
         except InvalidToken:
             print_error('your password is wrong. so you can not decrypt file')
+        except FileNotFoundError:
+            print_error('for encrypt or decrypt data. input directory is necessary')
         except:
             print_error(f'error {file}')
         else:
@@ -75,9 +81,12 @@ class Base:
         )
         return base64.urlsafe_b64encode(kdf.derive(password))
     
-    def write(self, data, file):
+    def write(self, data, file, relative_path):
         '''write data in the file'''
-        with open(self.generate_output_address(file), mode='wb') as f:
+        output_path = os.path.join(OUTPUT_DIR, relative_path)
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        
+        with open(output_path, mode='wb') as f:
             f.write(self.generate(data))
 
     def remove_input(self):
