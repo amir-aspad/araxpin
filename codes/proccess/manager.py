@@ -10,21 +10,18 @@ def run():
     while True:
         cmd = input(syng).lower().strip()
 
-        if cmd == 'enc':
+        if cmd == 'enc' or cmd == 'dec':
             password = input('your password ? ')
-            enc = Encrypt()
-            if password and enc.check_password(password):
-                enc_password = input('write your encrypt password : ').strip()
-                enc.run(enc_password)
-            else:
-                print_error('password have problem')
 
-        elif cmd == 'dec':
-            password = input('your password ? ')
-            dec = Decrypt()
-            if password and dec.check_password(password):
-                dec_password = input('write your decrypt password : ').strip()
-                dec.run(dec_password)
+            remove_input_text = 'Remove input directory after processing is done? (y/N)'
+            remove_input_state = True if input(remove_input_text).lower().strip() == 'y' else False
+
+            if password:
+                if cmd == 'enc':
+                    instance = Encrypt(remove_input_state)
+                else:
+                    instance = Decrypt(remove_input_state)
+                instance.run(password)
             else:
                 print_error('password have problem')
         
